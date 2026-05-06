@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Caixa Diário</title>
+
+<style>
+body {
+    font-family: Arial;
+    background: #1e1e2f;
+    color: white;
+    text-align: center;
+}
+
+.container {
+    background: #2c2c3e;
+    padding: 20px;
+    margin: 20px auto;
+    width: 300px;
+    border-radius: 10px;
+}
+
+input {
+    width: 90%;
+    padding: 10px;
+    margin: 5px;
+    border-radius: 5px;
+    border: none;
+}
+
+button {
+    padding: 10px;
+    width: 95%;
+    background: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.lista {
+    margin-top: 20px;
+}
+</style>
+
+</head>
+<body>
+
+<h1>💰 Sistema de Caixa</h1>
+
+<div class="container">
+<form method="POST" action="/salvar">
+
+<input type="number" step="0.01" name="dinheiro" placeholder="Dinheiro" required>
+<input type="number" step="0.01" name="credito" placeholder="Crédito" required>
+<input type="number" step="0.01" name="debito" placeholder="Débito" required>
+<input type="number" step="0.01" name="pix" placeholder="Pix" required>
+<input type="number" step="0.01" name="sangria" placeholder="Sangria" required>
+
+<button type="submit">Salvar</button>
+
+</form>
+</div>
+
+<div class="container lista">
+<h2>📊 Registros</h2>
+
+{% for d in dados %}
+<p>Total: R$ {{ d.total }}</p>
+{% endfor %}
+
+<h3>💵 Total Geral: R$ {{ total }}</h3>
+
+</div>
+
+</body>
+</html>
