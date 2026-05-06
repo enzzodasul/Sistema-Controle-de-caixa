@@ -23,7 +23,7 @@ table {
 
 th, td {
     border: 1px solid #444;
-    padding: 8px;
+    padding: 6px;
     text-align: center;
 }
 
@@ -32,7 +32,7 @@ th {
 }
 
 input {
-    width: 90px;
+    width: 80px;
     padding: 5px;
     border-radius: 5px;
     border: none;
@@ -47,17 +47,17 @@ button {
     cursor: pointer;
 }
 </style>
-
 </head>
 <body>
 
-<h1>📊 Controle de Caixa - Abril</h1>
+<h1>📊 Controle de Caixa - Abril 2024</h1>
 
 <form method="POST" action="/salvar">
 
 <table>
 <tr>
     <th>Dia</th>
+    <th>Semana</th>
     <th>Data</th>
     <th>Dinheiro</th>
     <th>Pix</th>
@@ -67,25 +67,26 @@ button {
     <th>Total</th>
 </tr>
 
-{% for i in range(1, 31) %}
+{% for d in dias %}
 <tr>
-    <td>{{ i }}</td>
-    <td>0{{ i }}/04</td>
+    <td>{{ d.dia }}</td>
+    <td>{{ d.semana }}</td>
+    <td>{{ d.data }}</td>
 
-    <td><input name="dinheiro{{i}}" type="number" step="0.01"></td>
-    <td><input name="pix{{i}}" type="number" step="0.01"></td>
-    <td><input name="credito{{i}}" type="number" step="0.01"></td>
-    <td><input name="debito{{i}}" type="number" step="0.01"></td>
-    <td><input name="sangria{{i}}" type="number" step="0.01"></td>
+    <td><input name="dinheiro{{d.dia}}" value="{{ d.dinheiro }}"></td>
+    <td><input name="pix{{d.dia}}" value="{{ d.pix }}"></td>
+    <td><input name="credito{{d.dia}}" value="{{ d.credito }}"></td>
+    <td><input name="debito{{d.dia}}" value="{{ d.debito }}"></td>
+    <td><input name="sangria{{d.dia}}" value="{{ d.sangria }}"></td>
 
-    <td>--</td>
+    <td>{{ d.total }}</td>
 </tr>
 {% endfor %}
 
 </table>
 
 <div style="text-align:center;">
-    <button type="submit">💾 Salvar Mês</button>
+    <button type="submit">💾 Salvar Tudo</button>
 </div>
 
 </form>
