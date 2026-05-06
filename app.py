@@ -1,51 +1,26 @@
-from flask import Flask, render_template, request, redirect
-import json
-import os
-
-app = Flask(__name__)
-
-ARQUIVO = "dados.json"
-
-def carregar_dados():
-    if not os.path.exists(ARQUIVO):
-        return []
-    with open(ARQUIVO, "r") as f:
-        return json.load(f)
-
-def salvar_dados(dados):
-    with open(ARQUIVO, "w") as f:
-        json.dump(dados, f, indent=4)
-
-@app.route("/")
-def index():
-    dados = carregar_dados()
-    total = sum(item["total"] for item in dados)
-    return render_template("index.html", dados=dados, total=total)
-
 @app.route("/salvar", methods=["POST"])
 def salvar():
-    dinheiro = float(request.form["dinheiro"])
-    credito = float(request.form["credito"])
-    debito = float(request.form["debito"])
-    pix = float(request.form["pix"])
-    sangria = float(request.form["sangria"])
+    dados = []
 
-    total = dinheiro + credito + debito + pix - sangria
+    for i in range(1, 31):
+        dinheiro = float(request.form.get(f"dinheiro{i}") or 0)
+        pix = float(request.form.get(f"pix{i}") or 0)
+        credito = float(request.form.get(f"credito{i}") or 0)
+        debito = float(request.form.get(f"debito{i}") or 0)
+        sangria = float(request.form.get(f"sangria{i}") or 0)
 
-    dados = carregar_dados()
+        total = dinheiro + pix + credito + debito - sangria
 
-    dados.append({
-        "dinheiro": dinheiro,
-        "credito": credito,
-        "debito": debito,
-        "pix": pix,
-        "sangria": sangria,
-        "total": total
-    })
+        dados.append({
+            "dia": i,
+            "dinheiro": dinheiro,
+            "pix": pix,
+            "credito": credito,
+            "debito": debito,
+            "sangria": sangria,
+            "total": total
+        })
 
     salvar_dados(dados)
 
     return redirect("/")
-
-if __name__ == "__main__":
-    app.run(debug=True)

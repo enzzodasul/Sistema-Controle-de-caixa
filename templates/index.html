@@ -2,76 +2,93 @@
 <html lang="pt-br">
 <head>
 <meta charset="UTF-8">
-<title>Caixa Diário</title>
+<title>Caixa Mensal</title>
 
 <style>
 body {
     font-family: Arial;
     background: #1e1e2f;
     color: white;
+}
+
+h1 {
     text-align: center;
 }
 
-.container {
+table {
+    width: 100%;
+    border-collapse: collapse;
     background: #2c2c3e;
-    padding: 20px;
-    margin: 20px auto;
-    width: 300px;
-    border-radius: 10px;
+}
+
+th, td {
+    border: 1px solid #444;
+    padding: 8px;
+    text-align: center;
+}
+
+th {
+    background: #444;
 }
 
 input {
-    width: 90%;
-    padding: 10px;
-    margin: 5px;
+    width: 90px;
+    padding: 5px;
     border-radius: 5px;
     border: none;
 }
 
 button {
-    padding: 10px;
-    width: 95%;
-    background: #4CAF50;
+    margin: 20px;
+    padding: 10px 20px;
+    background: green;
     color: white;
     border: none;
-    border-radius: 5px;
     cursor: pointer;
-}
-
-.lista {
-    margin-top: 20px;
 }
 </style>
 
 </head>
 <body>
 
-<h1>💰 Sistema de Caixa</h1>
+<h1>📊 Controle de Caixa - Abril</h1>
 
-<div class="container">
 <form method="POST" action="/salvar">
 
-<input type="number" step="0.01" name="dinheiro" placeholder="Dinheiro" required>
-<input type="number" step="0.01" name="credito" placeholder="Crédito" required>
-<input type="number" step="0.01" name="debito" placeholder="Débito" required>
-<input type="number" step="0.01" name="pix" placeholder="Pix" required>
-<input type="number" step="0.01" name="sangria" placeholder="Sangria" required>
+<table>
+<tr>
+    <th>Dia</th>
+    <th>Data</th>
+    <th>Dinheiro</th>
+    <th>Pix</th>
+    <th>Crédito</th>
+    <th>Débito</th>
+    <th>Sangria</th>
+    <th>Total</th>
+</tr>
 
-<button type="submit">Salvar</button>
+{% for i in range(1, 31) %}
+<tr>
+    <td>{{ i }}</td>
+    <td>0{{ i }}/04</td>
 
-</form>
-</div>
+    <td><input name="dinheiro{{i}}" type="number" step="0.01"></td>
+    <td><input name="pix{{i}}" type="number" step="0.01"></td>
+    <td><input name="credito{{i}}" type="number" step="0.01"></td>
+    <td><input name="debito{{i}}" type="number" step="0.01"></td>
+    <td><input name="sangria{{i}}" type="number" step="0.01"></td>
 
-<div class="container lista">
-<h2>📊 Registros</h2>
-
-{% for d in dados %}
-<p>Total: R$ {{ d.total }}</p>
+    <td>--</td>
+</tr>
 {% endfor %}
 
-<h3>💵 Total Geral: R$ {{ total }}</h3>
+</table>
 
+<div style="text-align:center;">
+    <button type="submit">💾 Salvar Mês</button>
 </div>
+
+</form>
 
 </body>
 </html>
